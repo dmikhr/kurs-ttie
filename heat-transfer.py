@@ -6,7 +6,7 @@ import numpy
 import matplotlib.pyplot as pl
 from pylab import *
 
-# Для работы программы на ОС Windows, помимо модулей matplotlib и numpy
+# Для работы программы на ОС Windows, в дополнение к модулям matplotlib и numpy
 # необходимо установить модули dateutil, pyparsing и six
 # установочные файлы модулей могут быть загружены с сайта
 # http://www.lfd.uci.edu/~gohlke/pythonlibs
@@ -62,9 +62,9 @@ for f in F:
 # построение графика
 Figure()
 pl.xlabel('F')
-pl.ylabel(u't')
-pl.plot(F, plotdata['t1F'], "-s", label=u'Hot heat carrier', color='black')
-pl.plot(F, plotdata['t2F'], "--o", label=u'Cold heat carrier', color='blue')
+pl.ylabel('t')
+pl.plot(F, plotdata['t1F'], "-s", label='Hot heat carrier', color='black')
+pl.plot(F, plotdata['t2F'], "--o", label='Cold heat carrier', color='blue')
 legend(loc='lower center', prop={'size':8})
 pl.grid()
 pl.show() # вывод графика
