@@ -6,9 +6,21 @@ import numpy
 import matplotlib.pyplot as pl
 from pylab import *
 
+# Для работы программы на ОС Windows, помимо модулей matplotlib и numpy
+# необходимо установить модули dateutil, pyparsing и six
+# установочные файлы модулей могут быть загружены с сайта
+# http://www.lfd.uci.edu/~gohlke/pythonlibs
+# работоспособность программы тестировалась с модулями %название_модуля%.win32-py2.7.exe
+
+direct = True # прямоточная схема
+#direct = False # противоточная схема
+
 ROUND = 1 # округление до 1 знака после запятой
 
 r = lambda x: round(x, ROUND) # округление результата
+
+# температурный напор
+delta = lambda x,y: [x[0] - x[1], y[0] - y[1]]
 
 t1 = 120; t2 = 60 # температуры теплоносителей на входе теплообменного аппарата
 t11 = 90; t22 = 80 # температуры теплоносителей на выходе теплообменного аппарата
@@ -17,10 +29,14 @@ F = numpy.arange(0,1.1,0.1) # нормированная площадь тепл
 
 plotdata = {'t1F':[], 't2F':[]} # словарь массивов с результатами расчётов температур
 
-# разница температур на входе
-dtin = t1 - t2 
-# разница температур на выходе
-dtout = t11 - t22
+if direct:
+ # прямоточная схема
+ # разница температур на входе и выходе
+ dtin, dtout = delta([t1,t2], [t11,t22]) 
+else:
+ # противоточная схема
+ # разница температур на входе и выходе
+ dtin, dtout = delta([t11,t2], [t1,t22]) 
 
 # разница температур горячего теплоносителя на входе и выходе
 dt1 = abs(t11 - t1)
@@ -45,10 +61,10 @@ for f in F:
  
 # построение графика
 Figure()
-pl.xlabel(u'Зависимость температуры теплоносителя от площади теплообмена, F')
+pl.xlabel('F')
 pl.ylabel(u't')
-pl.plot(F, plotdata['t1F'], "-s", label=u'Горячий теплоноситель', color='black')
-pl.plot(F, plotdata['t2F'], "--o", label=u'Холодный теплоноситель', color='blue')
+pl.plot(F, plotdata['t1F'], "-s", label=u'Hot heat carrier', color='black')
+pl.plot(F, plotdata['t2F'], "--o", label=u'Cold heat carrier', color='blue')
 legend(loc='lower center', prop={'size':8})
 pl.grid()
 pl.show() # вывод графика
