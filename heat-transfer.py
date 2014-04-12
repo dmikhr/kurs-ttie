@@ -3,6 +3,7 @@
 # Расчёт зависимостей температур горячего и холодного теплоносителей от площади теплообмена 
 
 import numpy
+import argparse
 import matplotlib.pyplot as pl
 from pylab import *
 
@@ -22,8 +23,28 @@ r = lambda x: round(x, ROUND) # округление результата
 # температурный напор
 delta = lambda x,y: [x[0] - x[1], y[0] - y[1]]
 
-t1 = 120; t2 = 60 # температуры теплоносителей на входе теплообменного аппарата
-t11 = 90; t22 = 80 # температуры теплоносителей на выходе теплообменного аппарата
+# аргументы командной строки
+# пример использования (противоточная схема, горячий теплоноситель - 150, 100; холодный - 20, 90): 
+# user@pc:~/code$ python heat-transfer.py  150 100 20 90 --opposite
+parser = argparse.ArgumentParser(description='Heat diagrams')
+parser.add_argument("t1", help="t1' - Hot carrier, input", type=float)
+parser.add_argument("t11", help="t1'' - Hot carrier, output", type=float)
+parser.add_argument("t2", help="t2' - Cold carrier, input", type=float)
+parser.add_argument("t22", help="t2'' - Cold carrier, output", type=float)
+parser.add_argument('--direct', nargs='?', const=1, help="Direct type of heat exchanger")
+parser.add_argument('--opposite', nargs='?', const=1, help="Opposite type of heat exchanger")
+parser.add_argument('--nopic', nargs='?', const=1, help="No plot, just text data") # без вывода графика
+
+args = parser.parse_args()
+#print args
+t1 = args.t1; t11 = args.t11;  t2 = args.t2;  t22= args.t22
+
+# если указан флаг --opposite
+if args.opposite==1:
+	direct = False
+
+#t1 = 120; t2 = 60 # температуры теплоносителей на входе теплообменного аппарата
+#t11 = 90; t22 = 80 # температуры теплоносителей на выходе теплообменного аппарата
 
 F = numpy.arange(0,1.1,0.1) # нормированная площадь теплообмена от 0 до 1 с шагом 0.1
 
@@ -60,11 +81,13 @@ for f in F:
  plotdata['t2F'].append(t2F)
  
 # построение графика
-Figure()
-pl.xlabel('F')
-pl.ylabel('t')
-pl.plot(F, plotdata['t1F'], "-s", label='Hot heat carrier', color='black')
-pl.plot(F, plotdata['t2F'], "--o", label='Cold heat carrier', color='blue')
-legend(loc='lower center', prop={'size':8})
-pl.grid()
-pl.show() # вывод графика
+if args.nopic == None:
+	Figure()
+	pl.xlabel('F')
+	pl.ylabel('t')
+	pl.plot(F, plotdata['t1F'], "-s", label='Hot heat carrier', color='black')
+	pl.plot(F, plotdata['t2F'], "--o", label='Cold heat carrier', color='blue')
+	legend(loc='lower center', prop={'size':8})
+	pl.grid()
+	pl.show() # вывод графика 
+	pl.show() # вывод графика 
