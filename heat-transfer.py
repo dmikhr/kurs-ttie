@@ -90,4 +90,3 @@ if args.nopic == None:
  legend(loc='lower center', prop={'size':8})
  pl.grid()
  pl.show() # вывод графика 
- pl.show() # вывод графика 
