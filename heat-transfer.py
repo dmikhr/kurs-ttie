@@ -82,12 +82,12 @@ for f in F:
  
 # построение графика
 if args.nopic == None:
-	Figure()
-	pl.xlabel('F')
-	pl.ylabel('t')
-	pl.plot(F, plotdata['t1F'], "-s", label='Hot heat carrier', color='black')
-	pl.plot(F, plotdata['t2F'], "--o", label='Cold heat carrier', color='blue')
-	legend(loc='lower center', prop={'size':8})
-	pl.grid()
-	pl.show() # вывод графика 
-	pl.show() # вывод графика 
+ Figure()
+ pl.xlabel('F')
+ pl.ylabel('t')
+ pl.plot(F, plotdata['t1F'], "-s", label='Hot heat carrier', color='black')
+ pl.plot(F, plotdata['t2F'], "--o", label='Cold heat carrier', color='blue')
+ legend(loc='lower center', prop={'size':8})
+ pl.grid()
+ pl.show() # вывод графика 
+ pl.show() # вывод графика 
